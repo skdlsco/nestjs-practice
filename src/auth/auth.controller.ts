@@ -1,5 +1,5 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { FtGuard } from './guard/ft.auard';
+import { FtGuard } from './guard/ft.guard';
 
 @Controller('auth')
 export class AuthController {
