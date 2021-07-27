@@ -1,14 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { sign } from 'crypto';
+import { User } from 'src/user/user.entity';
+import { UserService } from 'src/user/user.service';
+import { JwtDto } from './dto/jwt.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
-  async login(user: any) {
-    // return jwtDto : find user if exist return else create user
-    const payload = { name: user.login };
+  constructor(
+    private jwtService: JwtService,
+    private userService: UserService,
+  ) {}
+
+  async validate(user: JwtDto) {
+    return await this.userService.getUserById(user.id);
+  }
+
+  async sign(user: User) {
+    const payload = { id: user.id }
     return {
-      access_token: this.jwtService.sign(payload),
-    };
+      access_token: this.jwtService.sign(payload)
+    }
+  }
+
+  async login(user: any) {
+    const exist = await this.userService.getUserById(user.id);
+    if (exist)
+      return this.sign(exist);
+    
+    let newUser = new User();
+    newUser.id = user.id;
+    newUser.nickname = user.login;
+    newUser.intraLogin = user.login;
+    newUser.useTwoFactor = false;
+    newUser.status = 0;
+    newUser.avatar = user.image_url;
+    newUser.ladderLevel = 0;
+    newUser.ladderPoint = 0;
+    await this.userService.createUser(newUser);
+
+    return this.sign(newUser);
   }
 }
