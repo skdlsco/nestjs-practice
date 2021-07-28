@@ -34,3 +34,13 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 .env
+
+# yarn
+
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
