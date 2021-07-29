@@ -1,6 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { nextTick } from 'process';
 import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
@@ -71,7 +70,7 @@ describe('AuthService', () => {
     it('새로운 유저가 로그인을 시도', async () => {
       const userServiceGetSpy = jest
         .spyOn(userService, 'getUserById')
-        .mockResolvedValue(null);
+        .mockRejectedValue(null);
       const userServiceCreateSpy = jest.spyOn(userService, 'createUser');
 
       const result = await authservice.login(fakeUser);

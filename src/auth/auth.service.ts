@@ -23,9 +23,12 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const exist = await this.userService.getUserById(user.id);
-    if (exist) return this.sign(exist);
-
+    try {
+      const exist = await this.userService.getUserById(user.id);
+      if (exist) 
+        return this.sign(exist);
+    } catch (err) { }
+    
     const newUser = new User();
     newUser.id = user.id;
     newUser.nickname = user.login;
