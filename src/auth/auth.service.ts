@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { sign } from 'crypto';
 import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
 import { JwtDto } from './dto/jwt.dto';
@@ -17,18 +16,17 @@ export class AuthService {
   }
 
   async sign(user: User) {
-    const payload = { id: user.id }
+    const payload = { id: user.id };
     return {
-      access_token: this.jwtService.sign(payload)
-    }
+      access_token: this.jwtService.sign(payload),
+    };
   }
 
   async login(user: any) {
     const exist = await this.userService.getUserById(user.id);
-    if (exist)
-      return this.sign(exist);
-    
-    let newUser = new User();
+    if (exist) return this.sign(exist);
+
+    const newUser = new User();
     newUser.id = user.id;
     newUser.nickname = user.login;
     newUser.intraLogin = user.login;

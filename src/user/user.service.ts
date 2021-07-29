@@ -31,7 +31,7 @@ export class UserService {
   }
 
   async createFriend(me: User, friendId: number) {
-    let friend: User = await this.getUserById(friendId);
+    const friend: User = await this.getUserById(friendId);
     if (me.friends.find((u) => u.id == friend.id)) return;
     me.friends.push(friend);
     friend.friends.push(me);
@@ -46,7 +46,7 @@ export class UserService {
   }
 
   async deleteFriend(me: User, friendId: number) {
-    let friend: User = await this.getUserById(friendId);
+    const friend: User = await this.getUserById(friendId);
     if (me.friends.every((u) => u.id != friend.id)) return;
     me.friends = me.friends.filter((u) => u.id != friend.id);
     friend.friends = friend.friends.filter((u) => u.id != me.id);
