@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import config from './config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entity';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { User } from './user/user.entity';
         synchronize: true,
       }),
     }),
+    SocketModule,
     UserModule,
     AuthModule,
   ],

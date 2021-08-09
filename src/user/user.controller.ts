@@ -8,6 +8,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -16,6 +17,11 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('/me')
+  async getMe(@Req() req: Request) {
+    return req.user;
+  }
 
   @Get()
   async readUser() {
